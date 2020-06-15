@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lunz.fin.config.mapper.WorkflowConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.lunz.fin.config.entity.ClientStatusConfig" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ClientId" property="clientId" jdbcType="CHAR" />
+    <result column="ClientName" property="clientName" jdbcType="VARCHAR" />
+    <result column="Status" property="status" jdbcType="SMALLINT" />
+    <result column="StatusDesc" property="statusDesc" jdbcType="VARCHAR" />
+    <result column="Code" property="code" jdbcType="BIGINT" />
+    <result column="CodeName" property="codeName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ClientId, Status, Code
+  </sql>
+
+  <select id="getUploadOprConfigList" parameterType="com.lunz.fin.config.entity.ClientStatusConfig" resultMap="BaseResultMap">
+    SELECT
+    t1.*,
+    t2.CodeName
+    FROM sys_clientstatus_config t1
+    LEFT JOIN sys_resources_code  t2
+    ON t1.code = t2.id
+    where t1.ClientId = #{clientId, jdbcType=CHAR}
+    AND t1.Status = #{status,jdbcType=SMALLINT}
+    order by  t1.NodeOrder  asc
+  </select>
+
+</mapper>

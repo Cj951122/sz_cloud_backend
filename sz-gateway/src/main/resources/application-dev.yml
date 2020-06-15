@@ -1,0 +1,90 @@
+server:
+  port: 7000
+
+spring:
+  application:
+    name: sz-gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://identity-fat.lunz.cn/.well-known/openid-configuration/jwks
+          issuer-uri: http://identity-fat.lunz.cn
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+        health-check-path: /manage/health
+        register: false
+
+#error
+kernel:
+  error-code-prefix: WHZT
+
+zuul:
+  strip-prefix: false
+  prefix: /v1/api
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+    max-total-connections: 200
+    max-per-route-connections: 20
+    time-unit: MILLISECONDS
+    time-to-live: 10000
+  routes:
+    fin-config:
+      path: /config/**
+      serviceId: sz-config
+
+#Feign【超时时间设置】   全局配置
+ribbon:
+  # 请求连接的超时时间 默认的时间为 1 秒
+  ConnectTimeout: 60000
+  # 请求处理的超时时间
+  ReadTimeout: 60000
+
+config:
+  oauth2:
+    clientID: micr-client
+    clientSecret: lunz668#########
+    accessTokenUri: http://identity-fat.lunz.cn/connect/token
+    userAuthorizationUri:  http://identity-fat.lunz.cn/oauth/authorize
+    resourceURI: http://identity-fat.lunz.cn/oauth/authorize
+    swagger:
+      title: sz Gateway API
+      description: sz Gateway API
+      version: 2.0
+      package: com.lunz.fin
+    client:
+      grantType: client_credentials
+    resource:
+      id: sz-biz
+
+
+# 服务间传递Token参数
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        enabled: false
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 240000
+
+feign:
+  hystrix:
+    enabled: true
+
+
+management:
+  endpoints:
+    web:
+      base-path: /manage
+  endpoint:
+    health:
+      enabled: true

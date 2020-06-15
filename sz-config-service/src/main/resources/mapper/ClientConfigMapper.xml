@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lunz.fin.config.mapper.ClientConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.lunz.fin.config.entity.domain.ClientConfig" >
+    <id column="Id" property="id" jdbcType="CHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Code" property="code" jdbcType="CHAR" />
+    <result column="ApplicationCode" property="applicationCode" jdbcType="VARCHAR" />
+    <result column="CreatedAt" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="CreatedById" property="createdById" jdbcType="CHAR" />
+    <result column="UpdatedAt" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="UpdatedById" property="updatedById" jdbcType="CHAR" />
+    <result column="Deleted" property="deleted" jdbcType="BIT" />
+    <result column="DeletedAt" property="deletedAt" jdbcType="TIMESTAMP" />
+    <result column="DeletedById" property="deletedById" jdbcType="CHAR" />
+    <result column="JsonString" property="jsonString" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, Name, Code, ApplicationCode, CreatedAt, CreatedById, UpdatedAt, UpdatedById, 
+    Deleted, DeletedAt, DeletedById, JsonString
+  </sql>
+
+</mapper>

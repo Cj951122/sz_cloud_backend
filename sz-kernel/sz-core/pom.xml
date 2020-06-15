@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.lunz.sz</groupId>
+        <artifactId>sz-kernel</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>sz-core</artifactId>
+    <groupId>com.lunz.sz</groupId>
+    <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <dependencies>
+
+        <!--spring-boot-aop-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!--spring安全组件-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+        </dependency>
+        <!-- mysql驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!--阿里druid数据源-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- xss过滤组件 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-commons</artifactId>
+        </dependency>
+
+        <!-- 引用阿波罗配置中心 -->
+        <dependency>
+            <groupId>com.ctrip.framework.apollo</groupId>
+            <artifactId>apollo-client</artifactId>
+        </dependency>
+
+        <!-- servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--mybatis-plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatisplus-spring-boot-starter</artifactId>
+        </dependency>
+        <!--OSS-->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
+        <!-- spring-boot-starter-actuator 统一用最新版本，避免冲突 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- spring-security-config -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!--swagger-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!--map-structure:DO 与 VO-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lunz.sz</groupId>
+            <artifactId>sz-common</artifactId>
+        </dependency>
+
+    </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>rdc-releases</id>
+            <url>https://repo.rdc.aliyun.com/repository/12017-release-KoS7mb/</url>
+        </repository>
+        <snapshotRepository>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/12017-snapshot-EkH6Kd/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+</project>

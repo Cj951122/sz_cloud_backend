@@ -1,0 +1,9 @@
+app:
+  id:  sz-gateway
+apollo:
+  meta: http://configuration.lunz.cn
+  bootstrap:
+    enabled: true
+    eagerLoad:
+      enabled: true
+    namespaces: sz-gateway.yaml

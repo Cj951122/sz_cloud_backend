@@ -1,0 +1,111 @@
+pipeline {
+    agent { label 'linux' }
+    tools { 
+        maven 'maven3.6'
+    }
+    
+    // Poll scm every 10 minutes to trigger build.
+    // triggers {
+    //   pollSCM 'H/10 * * * *'
+    // }
+	
+	// keep 7 day, 100 builds.
+	options {
+        buildDiscarder(logRotator(artifactDaysToKeepStr: '',
+        artifactNumToKeepStr: '', daysToKeepStr: '7', numToKeepStr: '100'))
+        timestamps()
+    }
+    
+    parameters {
+        string(
+            description: '请输入版本号',
+            name: 'image_tag', 
+            defaultValue : 'latest',
+        )
+    }
+    
+    environment {
+        NAMESPACE = 'financial-informatization'
+        ALI_REGISTRY = 'registry.cn-hangzhou.aliyuncs.com'
+        ALI_RREGISTRY_CREDENTIAL_ID = 'finRegistryCredId'
+        DOCKERFILE = 'Dockerfile'
+    }
+    
+    stages {
+        stage ('Prepaetion') {
+            steps{
+                script{
+                    def job_name = env.JOB_NAME =~ /.*\/(.*)\/.*/
+                    env.JOB_NAMES = job_name[0][1]
+                    echo "JOB_NAMES is ${env.JOB_NAMES}"
+                }
+            }
+        }
+
+        stage ('Mvn') {
+            steps {
+                rtMavenDeployer (
+                    id: 'deployer1',
+                    serverId: 'lunz-artifactory',
+                    releaseRepo: "${env.JOB_NAMES}",
+                    snapshotRepo: "${env.JOB_NAMES}",
+                )
+                rtMavenRun (
+                    // Tool name from Jenkins configuration.
+                    tool: 'maven3.6',
+                    pom: 'pom.xml',
+                    goals: 'clean install -DskipTests',
+                    // Maven options.
+                    //opts: '-Xms1024m -Xmx2048m',
+                    //deployerId: 'deployer1',
+                )
+                sh " cp ./target/${env.JOB_NAMES}-1.0-SNAPSHOT.jar  ./docker/"
+                
+            }
+        }
+    
+        stage ('Push'){
+            steps{
+                script{
+                    IMAGE_URL = "${ALI_REGISTRY}/${NAMESPACE}/${env.JOB_NAMES}:${params.image_tag}"
+                    echo "IMAGE_URL is ${IMAGE_URL}"
+                    docker.withRegistry("https://${IMAGE_URL}", "${ALI_RREGISTRY_CREDENTIAL_ID}") {
+                        def myImage = docker.build("${IMAGE_URL}", "-f ./docker/${DOCKERFILE} .")
+                        myImage.push()
+                    }
+                    sh "rm -rf ./docker/${env.JOB_NAMES}-1.0-SNAPSHOT.jar"
+                }
+            }
+        }
+
+        // stage ('Pull'){
+        //     //sh 'ssh '
+        //     //sh "docker pull ${IMAGE_URL}"
+        // }
+    }
+    
+    post {
+        always {
+            mail subject: """构建通知:${env.JOB_NAME} - Build # ${env.BUILD_NUMBER} - ${currentBuild.result?:'SUCCESS'}""",       
+            body: """
+            <hr/>
+            <font color="red">(本邮件是程序自动下发的，请勿回复！)</font><br/><hr/>
+
+            项目名称：${env.JOB_NAME}<br/><hr/>
+
+            构建编号：${env.BUILD_NUMBER}<br/><hr/>
+
+            构建结果：${currentBuild.result}  <br/><hr/>
+
+            构建时长：${currentBuild.duration}ms <br/><hr/>
+
+            构建日志地址：<a href="${env.BUILD_URL}console">${env.BUILD_URL}console</a><br/><hr/>
+
+            构建地址：<a href="${env.BUILD_URL}">${env.BUILD_URL}</a><br/><hr/>
+            """,                
+            charset: 'utf-8',
+            mimeType: 'text/html',
+            to: 'xiahan@zhongruigroup.com'
+        }
+    }
+}

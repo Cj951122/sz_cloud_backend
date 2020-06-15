@@ -1,0 +1,25 @@
+version: '2'
+services:
+  fin-config-service:
+    image: registry-vpc.cn-hangzhou.aliyuncs.com/financial-informatization/fin-config-service:latest
+#    image: fin-archive-service:latest
+    container_name: fin-config-service
+    hostname: fin-config-service
+    volumes:
+      - /data1/devman/logs:/log
+    networks:
+      - net01
+    ports:
+      - "7020:7020"
+#    restart: always
+    environment:
+      ACTIVE: pre
+      ENV: dev
+      APOLLO_META: http://configuration.pre.lunz.cn
+networks:
+  net01:
+    external:
+      name: net01
+
+
+
